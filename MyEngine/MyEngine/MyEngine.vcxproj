@@ -94,7 +94,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>d3d11.lib;Effects11.lib;d3dx11.lib;DxErr.lib;legacy_stdio_definitions.lib;dinput8.lib;dxguid.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;Effects11.lib;d3dx11.lib;DxErr.lib;legacy_stdio_definitions.lib;dinput8.lib;dxguid.lib;XInput.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

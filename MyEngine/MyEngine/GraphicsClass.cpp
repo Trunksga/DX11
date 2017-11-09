@@ -22,7 +22,7 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 	bool result;
 
 	m_D3D = new D3DClass;
-	if (m_D3D)
+	if (!m_D3D)
 	{
 		return false;
 	}

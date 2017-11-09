@@ -4,9 +4,19 @@
 
 using namespace DirectX;
 
-class D3DClass
+__declspec(align(16)) class D3DClass
 {
 public:
+	void * operator new(size_t i)
+	{
+		return _mm_malloc(i, 16);
+	}
+	void operator delete(void *p)
+	{
+		_mm_free(p);
+	}
+
+
 	D3DClass();
 	D3DClass(const D3DClass& otherObject);
 	~D3DClass();
@@ -21,7 +31,7 @@ public:
 
 	void GetProjectionMatrix(XMMATRIX& outMatrix);
 	void GetWorlMatrix(XMMATRIX&outMatrix);
-	void GetOrhiMatrix(XMMATRIX&outMatrix);
+	void GetOtherMatrix(XMMATRIX&outMatrix);
 
 	void GetVideoCardInfo(char* outString,int& stingLen);
 
