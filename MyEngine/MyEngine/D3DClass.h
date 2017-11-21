@@ -31,9 +31,9 @@ public:
 
 	void GetProjectionMatrix(XMMATRIX& outMatrix);
 	void GetWorlMatrix(XMMATRIX&outMatrix);
-	void GetOtherMatrix(XMMATRIX&outMatrix);
+	void GetOrthoMatrix(XMMATRIX&outMatrix);
 
-	void GetVideoCardInfo(char* outString,int& stingLen);
+	void GetVideoCardInfo(char* outString,int& memory);
 
 private:
 	bool m_vsync_enabled;
@@ -49,6 +49,6 @@ private:
 	ID3D11RasterizerState*m_rasterState;
 	XMMATRIX m_projectionMatrix;
 	XMMATRIX m_worldMatrix;
-	XMMATRIX m_otherMatrix;
+	XMMATRIX m_orthoMatrix;
 };
 

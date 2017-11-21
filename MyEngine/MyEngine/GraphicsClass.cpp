@@ -1,4 +1,5 @@
 #include "GraphicsClass.h"
+#include <stdio.h>
 
 
 
@@ -38,6 +39,20 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 
 void GraphicsClass::Shutdown()
 {
+	char carNanme[128] = {0};
+	int memory = 0;
+	m_D3D->GetVideoCardInfo(carNanme, memory);
+
+	HANDLE hFile = CreateFile(L"C://VedioCardInfo.txt", GENERIC_WRITE | GENERIC_READ, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (hFile != INVALID_HANDLE_VALUE)
+	{
+		DWORD dwWritenSize = 0;
+		char writeInfo[256] = {0};
+		sprintf_s(writeInfo, "VedioCardName = %s , Memory = %d", carNanme, memory);
+		WriteFile(hFile, writeInfo, strlen(writeInfo), &dwWritenSize, nullptr);
+		FlushFileBuffers(hFile);
+	}
+
 	if (m_D3D)
 	{
 		m_D3D->Shutdown();
@@ -60,7 +75,7 @@ bool GraphicsClass::Frame()
 
 bool GraphicsClass::Render()
 {
-	m_D3D->BeginScene(0.5,0.5,0.5,1.0f);
+	m_D3D->BeginScene(1,1,0,1.0f);
 	m_D3D->EndScene();
 	return true;
 }
