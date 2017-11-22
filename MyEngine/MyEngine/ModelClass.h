@@ -8,8 +8,8 @@ class ModelClass
 private:
 	struct VertexType 
 	{
-		XMVECTOR position;
-		XMVECTOR color;
+		XMFLOAT3 position;
+		XMFLOAT4 color;
 	};
 
 public:
