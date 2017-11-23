@@ -64,7 +64,7 @@ bool ColorShaderClass::InitialzeShader(ID3D11Device* device, HWND hwnd, WCHAR* v
 	vertexShaderBuffer = 0;
 	pixelShaderBuffer = 0;
 
-	result = D3DX11CompileFromFile(vsFilename,NULL,NULL,"ColorVertexShader","vs_5_0", D3DCOMPILE_ENABLE_STRICTNESS,0,NULL,&vertexShaderBuffer,&errorMessage,NULL);
+	result = D3DX11CompileFromFile(vsFilename,NULL,NULL,"ColorVertexShader","vs_5_0", D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,0,NULL,&vertexShaderBuffer,&errorMessage,NULL);
 
 	if (FAILED(result))
 	{
@@ -80,7 +80,7 @@ bool ColorShaderClass::InitialzeShader(ID3D11Device* device, HWND hwnd, WCHAR* v
 		return false;
 	}
 
-	result = D3DX11CompileFromFile(psFilename, NULL, NULL, "ColorPixelShader", "ps_5_0", D3DCOMPILE_ENABLE_STRICTNESS, 0, NULL,
+	result = D3DX11CompileFromFile(psFilename, NULL, NULL, "ColorPixelShader", "ps_5_0", D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, NULL,
 		&pixelShaderBuffer, &errorMessage, NULL);
 	if (FAILED(result))
 	{
@@ -212,7 +212,7 @@ void ColorShaderClass::OutputShaderErrorMessage(ID3DBlob* errorMessage, HWND hwn
 	}
 
 	// Close the file.
-	//fout.close();
+	fout.close();
 
 	// Release the error message.
 	errorMessage->Release();
@@ -250,6 +250,7 @@ bool ColorShaderClass::SetShaderParameters(ID3D11DeviceContext* deviceContext, X
 
 	bufferNumber = 0;
 	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_matrixBuffer);
+	
 	return true;
 }
 

@@ -58,7 +58,7 @@ void Cameraclass::Render()
 	XMMATRIX rotationMatrix;
 
 
-	position = XMVectorSet(m_positionX, m_positionY, m_positionZ,1.0f);
+	position = XMVectorSet(m_positionX, m_positionY, m_positionZ,0.0f);
 	up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	lookAt = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 
@@ -72,7 +72,7 @@ void Cameraclass::Render()
 	up = XMVector3TransformCoord(up, rotationMatrix);
 
 	lookAt += position;
-
+	
 	m_viewMatrix =  XMMatrixLookAtLH(position, lookAt, up);
 
 }

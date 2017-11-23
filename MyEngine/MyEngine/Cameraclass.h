@@ -2,9 +2,18 @@
 #include "DirectXMath.h"
 using namespace DirectX;
 
-class Cameraclass
+__declspec(align(16)) class Cameraclass
 {
 public:
+	void * operator new(size_t i)
+	{
+		return _mm_malloc(i, 16);
+	}
+	void operator delete(void *p)
+	{
+		_mm_free(p);
+	}
+
 	Cameraclass();
 	Cameraclass(Cameraclass& other);
 	~Cameraclass();

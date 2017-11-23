@@ -1,5 +1,5 @@
 
-cbuffer MatrixBuffer
+cbuffer MatrixBuffer 
 {
     matrix worldMatrix;
     matrix viewMatrix;
