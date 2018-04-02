@@ -1,6 +1,6 @@
 #include "GraphicsClass.h"
-
 #include <stdio.h>
+#include "DirectXMath.h"
 
 
 
@@ -10,6 +10,9 @@ GraphicsClass::GraphicsClass()
 	m_ColorShader = nullptr;
 	m_Model = nullptr;
 	m_Camera = 0;
+	m_TextureShader = 0;
+	m_TextureShader = 0;
+	m_light = 0;
 }
 
 
@@ -51,7 +54,7 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 	{
 		return false;
 	}
-	result =  m_Model->Initialize(m_D3D->GetDevice());
+	result = m_Model->Initialize(m_D3D->GetDevice(), L"decal.dds");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
@@ -71,11 +74,64 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 		MessageBox(hwnd, L"Could not Initialize the color shader object",L"Error",MB_OK);
 	}
 
+	m_TextureShader = new TextureshaderClass;
+	if (!m_TextureShader)
+	{
+		return false;
+	}
+
+	// Initialize the texture shader object.
+	result = m_TextureShader->Initialize(m_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the texture shader object.", L"Error", MB_OK);
+		return false;
+	}
+
+	m_lightShader = new Lightshaderclass;
+	if (!m_lightShader)
+	{
+		return false;
+	}
+
+	result = m_lightShader->Initialize(m_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the light shader object.", L"Error", MB_OK);
+		return false;
+	}
+
+	m_light = new LightClass;
+	if (!m_light)
+	{
+		return false;
+	}
+
+	m_light->SetDiffuseColor(1.0, 1.0, 1.0, 1.0);
+	m_light->SetDirection(0.0f, 1.0f, 1.0f);
+
+
 	return true;
 }
 
 void GraphicsClass::Shutdown()
 {
+
+	// Release the light object.
+	if (m_light)
+	{
+		delete m_light;
+		m_light = 0;
+	}
+
+	// Release the light shader object.
+	if (m_lightShader)
+	{
+		m_lightShader->Shutdown();
+		delete m_lightShader;
+		m_lightShader = 0;
+	}
+
 	if (m_ColorShader)
 	{
 		m_ColorShader->Shutdown();
@@ -83,6 +139,12 @@ void GraphicsClass::Shutdown()
 		m_ColorShader = 0;
 	}
 
+	if (m_TextureShader)
+	{
+		m_TextureShader->Shutdown();
+		delete m_TextureShader;
+		m_TextureShader = 0;
+	}
 	// Release the model object.
 	if (m_Model)
 	{
@@ -123,8 +185,15 @@ void GraphicsClass::Shutdown()
 
 bool GraphicsClass::Frame()
 {
+	static float rotation = 0.0f;
+
+	rotation += (float)XM_PI*0.01f;
 	bool result;
-	result = Render();
+	if (rotation > 360.0f)
+	{
+		rotation -= 360.0f;
+	}
+	result = Render(rotation);
 	if (!result)
 	{
 		return false;
@@ -132,7 +201,7 @@ bool GraphicsClass::Frame()
 	return true;
 }
 
-bool GraphicsClass::Render()
+bool GraphicsClass::Render(float delta)
 {
 	XMMATRIX viewMatrix, projectionMatrix, worldMatrix;
 	bool result;
@@ -143,12 +212,24 @@ bool GraphicsClass::Render()
 	m_D3D->GetProjectionMatrix(projectionMatrix);
 	m_D3D->GetWorlMatrix(worldMatrix);
 
+	worldMatrix *= XMMatrixRotationY(delta);
+
+
 	m_Model->Render(m_D3D->GetDeviceContext());
-	result = m_ColorShader->Render(m_D3D->GetDeviceContext(),m_Model->GetIndexCount(),worldMatrix,viewMatrix,projectionMatrix);
+// 	result = m_ColorShader->Render(m_D3D->GetDeviceContext(),m_Model->GetIndexCount(),worldMatrix,viewMatrix,projectionMatrix);
+// 	if (!result)
+// 	{
+// 		return false;
+// 	}
+	//m_light->SetDirection(1.0, 1.0, delta / 360.f);
+	result = m_lightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture(), m_light->GetDirection(), m_light->GetDiffuseColor());
+
 	if (!result)
 	{
 		return false;
 	}
+
+
 	m_D3D->EndScene();
 	return true;
 }

@@ -1,4 +1,5 @@
 #include "ModelClass.h"
+#include "TextureClass.h"
 
 
 
@@ -6,6 +7,7 @@ ModelClass::ModelClass()
 {
 	m_vertexBuffer = nullptr;
 	m_indexCount = 0;
+	m_Texture = 0;
 }
 
 
@@ -21,15 +23,28 @@ ModelClass::~ModelClass()
 
 }
 
-bool ModelClass::Initialize(ID3D11Device* d3DDevice)
+bool ModelClass::Initialize(ID3D11Device* d3DDevice, WCHAR* imageName)
 {
 	bool result = false;
 	result = InitializeBuffers(d3DDevice);
-	return result;
+	if (!result)
+	{
+		return false;
+	}
+
+
+	result = LoadTexture(d3DDevice, imageName);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 void ModelClass::Shutdown()
 {
+	ReleaseTexture();
 	ShutdownBuffers();
 }
 
@@ -63,13 +78,16 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	}
 
 	vertices[0].position = XMFLOAT3(-1.0f, -1.0f, 0.0f);
-	vertices[0].color = XMFLOAT4(0.0f,1.0f,0.0f,1.0f);
+	vertices[0].texture = XMFLOAT2(0.0f,1.0f);
+	vertices[0].normal = XMFLOAT3(0.0f,0.0f,-1.0f);
 
 	vertices[1].position = XMFLOAT3(0.0f, 1.0f, 0.0f);
-	vertices[1].color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	vertices[1].texture = XMFLOAT2(0.5f, 0.0f);
+	vertices[1].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 	vertices[2].position = XMFLOAT3(1.0f, -1.0f, 0.0f);
-	vertices[2].color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	vertices[2].texture = XMFLOAT2( 1.0f, 1.0f);
+	vertices[2].normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 	indices[0] = 0;
 	indices[1] = 1;
@@ -148,7 +166,46 @@ void ModelClass::RenderBuffers(ID3D11DeviceContext* d3DDeviceContext)
 	return;
 }
 
+bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* imageName)
+{
+	bool result;
+
+
+	// Create the texture object.
+	m_Texture = new TextureClass;
+	if (!m_Texture)
+	{
+		return false;
+	}
+
+	// Initialize the texture object.
+	result = m_Texture->Initialize(device, imageName);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+void ModelClass::ReleaseTexture()
+{
+	if (m_Texture)
+	{
+		m_Texture->Shutdown();
+		delete m_Texture;
+		m_Texture = 0;
+	}
+	return;
+}
+
+
 int ModelClass::GetIndexCount()
 {
 	return m_indexCount;
+}
+
+ID3D11ShaderResourceView* ModelClass::GetTexture()
+{
+	return m_Texture->GetTexture();
 }

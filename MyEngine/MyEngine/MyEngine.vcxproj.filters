@@ -13,28 +13,79 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\SystemClass">
+      <UniqueIdentifier>{b536ff07-e655-4017-aa2d-31127be02b33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\InputClass">
+      <UniqueIdentifier>{055b2c7b-1a25-4532-a1dc-7858d6732179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass">
+      <UniqueIdentifier>{cd19224a-f059-48f4-bbe7-8967381e1907}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\D3DClass">
+      <UniqueIdentifier>{f55d1909-6680-4b2d-9c9d-7a920ee40019}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\ModelClass">
+      <UniqueIdentifier>{818b15a4-7f4c-4712-a88c-96613d782888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\CameraClass">
+      <UniqueIdentifier>{d6d5a98b-6618-4475-9cf6-cbc5f7f9ab23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\ColorShaderClass">
+      <UniqueIdentifier>{00174ec5-9d99-4f00-9348-8280a16bb7ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\LightShaderClass">
+      <UniqueIdentifier>{ed224c6b-f089-4ce9-96fe-5f8cd7617627}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\ModelClass\TextureClass">
+      <UniqueIdentifier>{0fb9019b-fe52-4cf8-bc56-77b6452419a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Shader">
+      <UniqueIdentifier>{8c1b61e1-de78-4a4f-a07c-74649d21374e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\TextureShaderClass">
+      <UniqueIdentifier>{cc8627e6-5105-4454-8685-a0f2b301bc2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\LightClass">
+      <UniqueIdentifier>{801157e8-71af-48fb-9637-58eba27b7ee5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClass.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\SystemClass</Filter>
     </ClInclude>
     <ClInclude Include="InputClass.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\SystemClass\InputClass</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsClass.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\SystemClass\GraphicesClass</Filter>
     </ClInclude>
     <ClInclude Include="D3DClass.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\SystemClass\GraphicesClass\D3DClass</Filter>
     </ClInclude>
     <ClInclude Include="ModelClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ColorShaderClass.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\SystemClass\GraphicesClass\ModelClass</Filter>
     </ClInclude>
     <ClInclude Include="Cameraclass.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\SystemClass\GraphicesClass\CameraClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorShaderClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\ColorShaderClass</Filter>
+    </ClInclude>
+    <ClInclude Include="Lightshaderclass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\LightShaderClass</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\ModelClass\TextureClass</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureshaderClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\TextureShaderClass</Filter>
+    </ClInclude>
+    <ClInclude Include="IShaderClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass</Filter>
+    </ClInclude>
+    <ClInclude Include="LightClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\LightClass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -62,10 +113,31 @@
     <ClCompile Include="Cameraclass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TextureClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureshaderClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Lightshaderclass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="IShaderClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LightClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Light.hlsl">
+      <Filter>源文件\Shader</Filter>
+    </None>
     <None Include="color.hlsl">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Shader</Filter>
+    </None>
+    <None Include="Texture.hlsl">
+      <Filter>源文件\Shader</Filter>
     </None>
   </ItemGroup>
 </Project>
