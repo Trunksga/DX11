@@ -54,7 +54,7 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 	{
 		return false;
 	}
-	result = m_Model->Initialize(m_D3D->GetDevice(), L"decal.dds");
+	result = m_Model->Initialize(m_D3D->GetDevice(), "Cube.txt", L"decal.dds");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
