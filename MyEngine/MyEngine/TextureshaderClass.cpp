@@ -229,7 +229,7 @@ void TextureshaderClass::ShutdownShader()
 void TextureshaderClass::OutputShaderErrorMessage(ID3D10Blob* blob, HWND hwnd, WCHAR* outFileName)
 {
 	char* compileErrors;
-	unsigned long bufferSize, i;
+	SIZE_T bufferSize, i;
 	ofstream fout;
 
 

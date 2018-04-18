@@ -54,7 +54,7 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 	{
 		return false;
 	}
-	result = m_Model->Initialize(m_D3D->GetDevice(), "Cube.txt", L"decal.dds");
+	result = m_Model->Initialize(m_D3D->GetDevice(), "model.txt", L"decal.dds");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
@@ -170,7 +170,7 @@ void GraphicsClass::Shutdown()
 		DWORD dwWritenSize = 0;
 		char writeInfo[256] = {0};
 		sprintf_s(writeInfo, "VedioCardName = %s , Memory = %d", carNanme, memory);
-		WriteFile(hFile, writeInfo, strlen(writeInfo), &dwWritenSize, nullptr);
+		WriteFile(hFile, writeInfo, (DWORD)strlen(writeInfo), &dwWritenSize, nullptr);
 		FlushFileBuffers(hFile);
 	}
 

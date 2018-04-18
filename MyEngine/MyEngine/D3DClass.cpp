@@ -30,7 +30,8 @@ bool D3DClass::Initialize(unsigned int screenWidth, unsigned int screenHeight, b
 	IDXGIFactory *factory;
 	IDXGIAdapter *adapter;
 	IDXGIOutput *adapterOutput;
-	unsigned int numModes, i, numerator, denorminator, stringLength;
+	unsigned int numModes, i, numerator, denorminator;
+	size_t stringLength;
 	DXGI_MODE_DESC* displayModeList;
 	DXGI_ADAPTER_DESC adapterDesc;
 	int error;
@@ -100,7 +101,7 @@ bool D3DClass::Initialize(unsigned int screenWidth, unsigned int screenHeight, b
 
 	m_videoCardMemory = (int)(adapterDesc.DedicatedVideoMemory / 1024 / 1024);
 
-	error = wcstombs_s(&stringLength, m_videoCardDescription, 128, adapterDesc.Description, 128);
+	error = wcstombs_s((size_t*)&stringLength, m_videoCardDescription, 128, adapterDesc.Description, 128);
 
 	if (error!=0)
 	{

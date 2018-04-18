@@ -192,7 +192,7 @@ void ColorShaderClass::ShutdownShader()
 void ColorShaderClass::OutputShaderErrorMessage(ID3DBlob* errorMessage, HWND hwnd, WCHAR* shaderFilename)
 {
 	char* compileErrors;
-	unsigned long bufferSize, i;
+	SIZE_T bufferSize, i;
 	std::ofstream fout;
 
 

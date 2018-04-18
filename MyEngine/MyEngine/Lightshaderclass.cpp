@@ -282,7 +282,7 @@ void Lightshaderclass::ShutdownShader()
 void Lightshaderclass::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, WCHAR* shaderFilename)
 {
 	char* compileErrors;
-	unsigned long bufferSize, i;
+	SIZE_T bufferSize, i;
 	ofstream fout;
 
 
