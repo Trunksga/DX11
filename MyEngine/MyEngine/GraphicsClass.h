@@ -24,11 +24,12 @@ public:
 	void Shutdown();
 	bool Frame();
 	
+	Cameraclass* m_Camera;
 private:
 	bool Render(float delta);
 private:
 	D3DClass *m_D3D = nullptr;
-	Cameraclass* m_Camera;
+	
 	ModelClass* m_Model;
 	ColorShaderClass* m_ColorShader;
 

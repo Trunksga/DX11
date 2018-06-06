@@ -113,6 +113,22 @@ bool SystemClass::Frame()
 	bool result = false;
 	if (m_Input->IsKeyDown(VK_ESCAPE))
 		return false;
+	if (m_Input->IsKeyDown(87))
+	{
+		m_Graphics->m_Camera->Forward(true);
+	}
+	if (m_Input->IsKeyDown(83))
+	{
+		m_Graphics->m_Camera->Forward(false);
+	}
+	if (m_Input->IsKeyDown(68))
+	{
+		m_Graphics->m_Camera->Right(true);
+	}
+	if (m_Input->IsKeyDown(65))
+	{
+		m_Graphics->m_Camera->Right(false);
+	}
 
 	result = m_Graphics->Frame();
 	if (!result)

@@ -81,3 +81,48 @@ void Cameraclass::GetViewMatrix(XMMATRIX& matrix)
 {
 	matrix = m_viewMatrix;
 }
+
+XMMATRIX Cameraclass::GetCameraMatrix()
+{
+	XMMATRIX p =  XMMatrixTranslation(m_positionX, m_positionY, m_positionZ);
+	XMMATRIX s = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+	XMMATRIX r = XMMatrixRotationRollPitchYaw(XMConvertToRadians(m_rotationX), XMConvertToRadians(m_rotationY), XMConvertToRadians(m_rotationZ));
+	return p * s *r;
+}
+
+void Cameraclass::Forward(bool forward)
+{
+
+	float pitch = XMConvertToRadians(m_rotationX);
+	float yaw = XMConvertToRadians(m_rotationY);
+	float roll = XMConvertToRadians(m_rotationZ);
+
+	XMMATRIX cm = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
+
+	XMVECTOR lookAt = XMVector3TransformCoord(XMVectorSet( forward ? 1 : -1, 0, 0, 0), cm);
+	lookAt *= 0.1;
+	XMFLOAT3 tmp;
+	XMStoreFloat3(&tmp, lookAt);
+
+	m_positionX += tmp.x;
+	m_positionY += tmp.y;
+	m_positionZ += tmp.z;
+}
+
+void Cameraclass::Right(bool right)
+{
+	 float pitch = XMConvertToRadians(m_rotationX);
+	 float yaw = XMConvertToRadians(m_rotationY);
+	 float roll = XMConvertToRadians(m_rotationZ);
+
+	XMMATRIX cm = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
+
+	XMVECTOR lookAt = XMVector3TransformCoord(XMVectorSet(0, 0,right ? 1 : -1, 0), cm);
+	lookAt *= 0.1;
+	XMFLOAT3 tmp;
+	XMStoreFloat3(&tmp, lookAt);
+
+	m_positionX += tmp.x;
+	m_positionY += tmp.y;
+	m_positionZ += tmp.z;
+}

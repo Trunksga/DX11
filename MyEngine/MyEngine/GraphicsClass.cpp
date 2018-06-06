@@ -1,4 +1,4 @@
-#include "GraphicsClass.h"
+﻿#include "GraphicsClass.h"
 #include <stdio.h>
 #include "DirectXMath.h"
 
@@ -109,8 +109,9 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 
 	m_light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
 	m_light->SetDiffuseColor(1.0, 1.0, 1.0, 1.0);
-	m_light->SetDirection(1.0f, 0.0f, 0.0f);
-
+	m_light->SetDirection(0.0f, 0.0f, 1.0f);
+	m_light->SetSpecularColor(1.0f, 0.0f, 1.0f, 1.0f);
+	m_light->SetSpecularPower(32.0f);
 
 	return true;
 }
@@ -213,7 +214,7 @@ bool GraphicsClass::Render(float delta)
 	m_D3D->GetProjectionMatrix(projectionMatrix);
 	m_D3D->GetWorlMatrix(worldMatrix);
 
-	worldMatrix *= XMMatrixRotationY(delta);
+	//worldMatrix *= XMMatrixRotationY(delta);
 
 
 	m_Model->Render(m_D3D->GetDeviceContext());
@@ -223,7 +224,8 @@ bool GraphicsClass::Render(float delta)
 // 		return false;
 // 	}
 	//m_light->SetDirection(1.0, 1.0, delta / 360.f);
-	result = m_lightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture(), m_light->GetDirection(), m_light->GetAmbientColor(),m_light->GetDiffuseColor());
+	result = m_lightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture(), m_light->GetDirection(), m_light->GetAmbientColor(),m_light->GetDiffuseColor(),
+		m_Camera->GetPosition(), m_light->GetSpecularColor(), m_light->GetSpecularPower());
 
 	if (!result)
 	{
