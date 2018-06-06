@@ -129,6 +129,30 @@ bool SystemClass::Frame()
 	{
 		m_Graphics->m_Camera->Right(false);
 	}
+	if (m_Input->IsKeyDown(0x51))
+	{
+		m_Graphics->m_Camera->Up(false);
+	}
+	if (m_Input->IsKeyDown(0x45))
+	{
+		m_Graphics->m_Camera->Up(true);
+	}
+	if (m_Input->IsKeyDown(VK_RIGHT))
+	{
+		m_Graphics->m_Camera->Yaw(true);
+	}
+	if (m_Input->IsKeyDown(VK_LEFT))
+	{
+		m_Graphics->m_Camera->Yaw(false);
+	}
+	if (m_Input->IsKeyDown(VK_UP))
+	{
+		m_Graphics->m_Camera->Pitch(true);
+	}
+	if (m_Input->IsKeyDown(VK_DOWN))
+	{
+		m_Graphics->m_Camera->Pitch(false);
+	}
 
 	result = m_Graphics->Frame();
 	if (!result)

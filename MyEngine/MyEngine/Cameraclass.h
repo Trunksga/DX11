@@ -29,6 +29,9 @@ public:
 	XMMATRIX GetCameraMatrix();
 	void Forward(bool forward);
 	void Right(bool right);
+	void Up(bool up);
+	void Yaw(bool yaw);
+	void Pitch(bool pitch);
 private:
 	float m_positionX, m_positionY, m_positionZ;
 	float m_rotationX, m_rotationY, m_rotationZ;

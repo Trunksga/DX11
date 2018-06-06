@@ -104,7 +104,7 @@ float4 LightPixelShader(PixelInputType input) : SV_TARGET
 	textureColor = shaderTexture.Sample(SampleType, input.tex);
 	
 	
-	color = ambientColor;
+	color = ambientColor * textureColor;
 	specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	// Invert the light direction for calculations.
 	lightDir = -lightDirection;
