@@ -23,7 +23,7 @@
     <ProjectGuid>{BF4BA8DC-1FC0-42FE-82D7-F65922CCF3D0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MyEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Bitmapclass.h" />
     <ClInclude Include="Cameraclass.h" />
     <ClInclude Include="ColorShaderClass.h" />
     <ClInclude Include="D3DClass.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="TextureshaderClass.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bitmapclass.cpp" />
     <ClCompile Include="Cameraclass.cpp" />
     <ClCompile Include="ColorShaderClass.cpp" />
     <ClCompile Include="D3DClass.cpp" />

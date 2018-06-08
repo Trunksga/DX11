@@ -99,9 +99,9 @@ void Cameraclass::Forward(bool forward)
 
 	XMMATRIX cm = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 
-	XMVECTOR lookAt = XMVector3TransformCoord(XMVectorSet(0, 0, forward ? 1 : -1, 0), cm);
+	XMVECTOR lookAt = XMVector3TransformCoord(XMVectorSet(0.0f, 0.0f, forward ? 1.0f : -1.0f, 0.0f), cm);
 
-	lookAt *= 0.1;
+	lookAt *= 0.1f;
 	XMFLOAT3 tmp;
 	XMStoreFloat3(&tmp, lookAt);
 
@@ -118,9 +118,9 @@ void Cameraclass::Right(bool right)
 
 	XMMATRIX cm = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 
-	XMVECTOR lookAt = XMVector3TransformCoord(XMVectorSet(right ? 1 : -1, 0, 0, 0), cm);
+	XMVECTOR lookAt = XMVector3TransformCoord(XMVectorSet(right ? 1.0f : -1.0f, 0.0f, 0.0f, 0.0f), cm);
 	
-	lookAt *= 0.1;
+	lookAt *= 0.1f;
 	XMFLOAT3 tmp;
 	XMStoreFloat3(&tmp, lookAt);
 
@@ -137,9 +137,9 @@ void Cameraclass::Up(bool up)
 
 	XMMATRIX cm = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 
-	XMVECTOR lookAt = XMVector3TransformCoord(XMVectorSet( 0, up ? 1 : -1, 0, 0), cm);
+	XMVECTOR lookAt = XMVector3TransformCoord(XMVectorSet( 0.0f, up ? 1.0f : -1.0f, 0.0f, 0.0f), cm);
 
-	lookAt *= 0.1;
+	lookAt *= 0.1f;
 	XMFLOAT3 tmp;
 	XMStoreFloat3(&tmp, lookAt);
 
@@ -150,10 +150,10 @@ void Cameraclass::Up(bool up)
 
 void Cameraclass::Yaw(bool yaw)
 {
-	m_rotationY += yaw ? 0.4 : -0.4;
+	m_rotationY += yaw ? 0.4f : -0.4f;
 }
 
 void Cameraclass::Pitch(bool pitch)
 {
-	m_rotationX += pitch ? 0.4 : -0.4;
+	m_rotationX += pitch ? 0.4f : -0.4f;
 }

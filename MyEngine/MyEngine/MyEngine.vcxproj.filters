@@ -49,6 +49,9 @@
     <Filter Include="头文件\SystemClass\GraphicesClass\LightClass">
       <UniqueIdentifier>{801157e8-71af-48fb-9637-58eba27b7ee5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\Bitmapclass">
+      <UniqueIdentifier>{1e0c7d78-2a9c-45f3-bda0-61f123c4c7d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClass.h">
@@ -86,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="LightClass.h">
       <Filter>头文件\SystemClass\GraphicesClass\LightClass</Filter>
+    </ClInclude>
+    <ClInclude Include="Bitmapclass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\Bitmapclass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +132,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="LightClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Bitmapclass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

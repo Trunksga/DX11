@@ -13,6 +13,7 @@ GraphicsClass::GraphicsClass()
 	m_TextureShader = 0;
 	m_TextureShader = 0;
 	m_light = 0;
+	m_Bitmap = 0;
 }
 
 
@@ -113,11 +114,33 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 	m_light->SetSpecularColor(0.5f, 0.5f, 0.5f, 1.0f);
 	m_light->SetSpecularPower(32.0f);
 
+	// Create the bitmap object.
+	m_Bitmap = new BitmapClass;
+	if (!m_Bitmap)
+	{
+		return false;
+	}
+
+	// Initialize the bitmap object.
+	result = m_Bitmap->Initialize(m_D3D->GetDevice(), screenWidth, screenHeight, L"../Engine/data/seafloor.dds", 256, 256);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the bitmap object.", L"Error", MB_OK);
+		return false;
+	}
+
 	return true;
 }
 
 void GraphicsClass::Shutdown()
 {
+	// Release the bitmap object.
+	if (m_Bitmap)
+	{
+		m_Bitmap->Shutdown();
+		delete m_Bitmap;
+		m_Bitmap = 0;
+	}
 
 	// Release the light object.
 	if (m_light)

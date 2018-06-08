@@ -8,6 +8,7 @@
 #include "textureshaderclass.h"
 #include "Lightshaderclass.h"
 #include "LightClass.h"
+#include "BitmapClass.h"
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
@@ -37,5 +38,7 @@ private:
 
 	Lightshaderclass * m_lightShader;
 	LightClass * m_light;
+
+	BitmapClass* m_Bitmap;
 };
 
