@@ -14,6 +14,7 @@ GraphicsClass::GraphicsClass()
 	m_TextureShader = 0;
 	m_light = 0;
 	m_Bitmap = 0;
+	m_Text = 0;
 }
 
 
@@ -29,6 +30,7 @@ GraphicsClass::~GraphicsClass()
 bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 {
 	bool result;
+	XMMATRIX baseViewMatrix;
 
 	m_D3D = new D3DClass;
 	if (!m_D3D)
@@ -49,6 +51,8 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 	}
 
 	m_Camera->SetPosition(0.0f, 0.0f, -10.0f);
+	m_Camera->Render();
+	m_Camera->GetViewMatrix(baseViewMatrix);
 
 	m_Model = new ModelClass;
 	if (!m_Model)
@@ -122,10 +126,24 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 	}
 
 	// Initialize the bitmap object.
-	result = m_Bitmap->Initialize(m_D3D->GetDevice(), screenWidth, screenHeight, L"../Engine/data/seafloor.dds", 256, 256);
+	result = m_Bitmap->Initialize(m_D3D->GetDevice(), screenWidth, screenHeight, L"decal.dds", 256, 256);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the bitmap object.", L"Error", MB_OK);
+		return false;
+	}
+
+	m_Text = new TextClass;
+	if (!m_Text)
+	{
+		return false;
+	}
+
+	// Initialize the text object.
+	result = m_Text->Initialize(m_D3D->GetDevice(), m_D3D->GetDeviceContext(), hwnd, screenWidth, screenHeight, baseViewMatrix);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the text object.", L"Error", MB_OK);
 		return false;
 	}
 
@@ -134,6 +152,13 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 
 void GraphicsClass::Shutdown()
 {
+	if (m_Text)
+	{
+		m_Text->Shutdown();
+		delete m_Text;
+		m_Text = 0;
+	}
+
 	// Release the bitmap object.
 	if (m_Bitmap)
 	{
@@ -210,6 +235,7 @@ void GraphicsClass::Shutdown()
 
 bool GraphicsClass::Frame()
 {
+	
 	static float rotation = 0.0f;
 
 	rotation += (float)XM_PI*0.005f;
@@ -228,7 +254,7 @@ bool GraphicsClass::Frame()
 
 bool GraphicsClass::Render(float delta)
 {
-	XMMATRIX viewMatrix, projectionMatrix, worldMatrix;
+	XMMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix;
 	bool result;
 	m_D3D->BeginScene(0,0,0,1.0f);
 
@@ -240,22 +266,58 @@ bool GraphicsClass::Render(float delta)
 	//worldMatrix *= XMMatrixRotationY(delta);
 
 
-	m_Model->Render(m_D3D->GetDeviceContext());
+	
 // 	result = m_ColorShader->Render(m_D3D->GetDeviceContext(),m_Model->GetIndexCount(),worldMatrix,viewMatrix,projectionMatrix);
 // 	if (!result)
 // 	{
 // 		return false;
 // 	}
 	//m_light->SetDirection(1.0, 1.0, delta / 360.f);
-	result = m_lightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture(), m_light->GetDirection(), m_light->GetAmbientColor(),m_light->GetDiffuseColor(),
-		m_Camera->GetPosition(), m_light->GetSpecularColor(), m_light->GetSpecularPower());
+	m_D3D->GetOrthoMatrix(orthoMatrix);
+	// Turn off the Z buffer to begin all 2D rendering.
+	
+	m_D3D->TurnOnAlphaBlending();
+
+	// Put the bitmap vertex and index buffers on the graphics pipeline to prepare them for drawing.
+#if 1
+	m_D3D->TurnZBufferOn();
+	m_Model->Render(m_D3D->GetDeviceContext());
+	result = m_lightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture(), m_light->GetDirection(), m_light->GetAmbientColor(), m_light->GetDiffuseColor(), m_Camera->GetPosition(), m_light->GetSpecularColor(), m_light->GetSpecularPower());
 
 	if (!result)
 	{
 		return false;
 	}
+#endif
 
 
+
+#if 1
+	m_D3D->TurnZBufferOff();
+	result = m_Bitmap->Render(m_D3D->GetDeviceContext(), 0, 0);
+	if (!result)
+	{
+		return false;
+	}
+	result = m_TextureShader->Render(m_D3D->GetDeviceContext(), m_Bitmap->GetIndexCount(), worldMatrix, viewMatrix, orthoMatrix, m_Bitmap->GetTexture());
+	if (!result)
+	{
+		return false;
+	}
+#endif
+
+#if 1
+	m_D3D->TurnZBufferOff();
+	//m_Text->SetbaseViewMatrix(viewMatrix);
+	result = m_Text->Render(m_D3D->GetDeviceContext(), worldMatrix, orthoMatrix);
+	if (!result)
+	{
+		return false;
+	}
+	// Turn off alpha blending after rendering the text.
+#endif
+
+	m_D3D->TurnOffAlphaBlending();
 	m_D3D->EndScene();
 	return true;
 }

@@ -41,7 +41,7 @@ void Lightshaderclass::Shutdown()
 	return;
 }
 
-bool Lightshaderclass::Render(ID3D11DeviceContext*deviceContext, int indexCount, XMMATRIX& worldMatrix, XMMATRIX &viewMatrix, XMMATRIX& projectionMatrix, ID3D11ShaderResourceView* texture, XMFLOAT3 lightDirection, XMFLOAT4 ambientColor,XMFLOAT4 diffuseColor, XMFLOAT3 cameraPosition, XMFLOAT4 specularColor, float specularPower)
+bool Lightshaderclass::Render(ID3D11DeviceContext*deviceContext, int indexCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix, ID3D11ShaderResourceView* texture, XMFLOAT3 lightDirection, XMFLOAT4 ambientColor,XMFLOAT4 diffuseColor, XMFLOAT3 cameraPosition, XMFLOAT4 specularColor, float specularPower)
 {
 	bool result;
 	// Set the shader parameters that it will use for rendering.
@@ -348,9 +348,9 @@ bool Lightshaderclass::SetShaderParameters(ID3D11DeviceContext* deviceContext, X
 
 
 	// Transpose the matrices to prepare them for the shader.
-	worldMatrix = XMMatrixTranspose(worldMatrix);
-	viewMatrix = XMMatrixTranspose(viewMatrix);
-	projectionMatrix = XMMatrixTranspose(projectionMatrix);
+	XMMATRIX worldMatrix_ = XMMatrixTranspose(worldMatrix);
+	XMMATRIX viewMatrix_ = XMMatrixTranspose(viewMatrix);
+	XMMATRIX projectionMatrix_ = XMMatrixTranspose(projectionMatrix);
 	
 
 	// Lock the constant buffer so it can be written to.
@@ -364,9 +364,9 @@ bool Lightshaderclass::SetShaderParameters(ID3D11DeviceContext* deviceContext, X
 	dataPtr = (MatrixBufferType*)mappedResource.pData;
 
 	// Copy the matrices into the constant buffer.
-	dataPtr->world = worldMatrix;
-	dataPtr->view = viewMatrix;
-	dataPtr->projection = projectionMatrix;
+	dataPtr->world = worldMatrix_;
+	dataPtr->view = viewMatrix_;
+	dataPtr->projection = projectionMatrix_;
 
 	// Unlock the constant buffer.
 	deviceContext->Unmap(m_matrixBuffer, 0);

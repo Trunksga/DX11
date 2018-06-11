@@ -21,7 +21,7 @@ public:
 	~TextureshaderClass();
 	bool Initialize(ID3D11Device* device, HWND hwnd);
 	void Shutdown();
-	bool Render(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX& wrold, XMMATRIX& view, XMMATRIX& projection, ID3D11ShaderResourceView* texture);
+	bool Render(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX wrold, XMMATRIX view, XMMATRIX projection, ID3D11ShaderResourceView* texture);
 
 private:
 	bool InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* vsFileName, WCHAR* psFileName);

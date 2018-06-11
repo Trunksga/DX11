@@ -52,6 +52,15 @@
     <Filter Include="头文件\SystemClass\GraphicesClass\Bitmapclass">
       <UniqueIdentifier>{1e0c7d78-2a9c-45f3-bda0-61f123c4c7d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\Fontclass">
+      <UniqueIdentifier>{e6ccf96b-b8c4-4eef-9071-2f1ed0618346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\Fontshaderclass">
+      <UniqueIdentifier>{0c22f8d2-93fe-4fac-ab70-4a19edfd8a69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\Textclass">
+      <UniqueIdentifier>{e93a84ac-3f70-4b5c-886c-131f382e0a28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClass.h">
@@ -92,6 +101,18 @@
     </ClInclude>
     <ClInclude Include="Bitmapclass.h">
       <Filter>头文件\SystemClass\GraphicesClass\Bitmapclass</Filter>
+    </ClInclude>
+    <ClInclude Include="FontClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\Fontclass</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FontShaderClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\Fontshaderclass</Filter>
+    </ClInclude>
+    <ClInclude Include="Textclass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\Textclass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +158,15 @@
     <ClCompile Include="Bitmapclass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="FontClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FontShaderClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Textclass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Light.hlsl">
@@ -148,5 +178,13 @@
     <None Include="Texture.hlsl">
       <Filter>源文件\Shader</Filter>
     </None>
+    <None Include="Font.hlsl">
+      <Filter>源文件\Shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MyEngine.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
