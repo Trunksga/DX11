@@ -159,7 +159,7 @@ ID3D11ShaderResourceView* FontClass::GetTexture()
 }
 
 
-void FontClass::BuildVertexArray(void* vertices, char* sentence, float drawX, float drawY)
+void FontClass::BuildVertexArray(void* vertices, char* sentence, float drawX, float drawY, XMFLOAT2 drawSize /*= XMFLOAT(10,10)*/)
 {
 	VertexType* vertexPtr;
 	int numLetters, index, i, letter;
@@ -173,9 +173,25 @@ void FontClass::BuildVertexArray(void* vertices, char* sentence, float drawX, fl
 
 	// Initialize the index to the vertex array.
 	index = 0;
+	float YOffset = drawSize.y;
+	int* letterSize = new int[numLetters];
+	float totalsize = 0;
+	memset(letterSize, 0, numLetters);
+	for (i = 0; i < numLetters; i++)
+	{
+		letter = ((int)sentence[i]) - 32;
+		if (letter == 0)
+		{
+			totalsize += 3;
+		}
+		{
+			totalsize += m_Font[letter].size;
+		}
+		
+	}
+	float scale = drawSize.x / (totalsize + numLetters - 1);
 	
-
-		// Draw each letter onto a quad.
+	// Draw each letter onto a quad.
 	for (i = 0; i < numLetters; i++)
 		{
 			letter = ((int)sentence[i]) - 32;
@@ -187,16 +203,18 @@ void FontClass::BuildVertexArray(void* vertices, char* sentence, float drawX, fl
 			}
 			else
 			{
+				//float XOffset = 100.0f / numLetters;
+				float XOffset = (float)m_Font[letter].size * scale ;
 				// First triangle in quad.
 				vertexPtr[index].position = XMFLOAT3(drawX, drawY, 0.0f);  // Top left.
 				vertexPtr[index].texture = XMFLOAT2(m_Font[letter].left, 0.0f);
 				index++;
 
-				vertexPtr[index].position = XMFLOAT3((drawX + m_Font[letter].size), (drawY - 16), 0.0f);  // Bottom right.
+				vertexPtr[index].position = XMFLOAT3((drawX + XOffset), (drawY - YOffset), 0.0f);  // Bottom right.
 				vertexPtr[index].texture = XMFLOAT2(m_Font[letter].right, 1.0f);
 				index++;
 
-				vertexPtr[index].position = XMFLOAT3(drawX, (drawY - 16), 0.0f);  // Bottom left.
+				vertexPtr[index].position = XMFLOAT3(drawX, (drawY - YOffset), 0.0f);  // Bottom left.
 				vertexPtr[index].texture = XMFLOAT2(m_Font[letter].left, 1.0f);
 				index++;
 
@@ -205,16 +223,16 @@ void FontClass::BuildVertexArray(void* vertices, char* sentence, float drawX, fl
 				vertexPtr[index].texture = XMFLOAT2(m_Font[letter].left, 0.0f);
 				index++;
 
-				vertexPtr[index].position = XMFLOAT3(drawX + m_Font[letter].size, drawY, 0.0f);  // Top right.
+				vertexPtr[index].position = XMFLOAT3(drawX + XOffset, drawY, 0.0f);  // Top right.
 				vertexPtr[index].texture = XMFLOAT2(m_Font[letter].right, 0.0f);
 				index++;
 
-				vertexPtr[index].position = XMFLOAT3((drawX + m_Font[letter].size), (drawY - 16), 0.0f);  // Bottom right.
+				vertexPtr[index].position = XMFLOAT3((drawX + XOffset), (drawY - YOffset), 0.0f);  // Bottom right.
 				vertexPtr[index].texture = XMFLOAT2(m_Font[letter].right, 1.0f);
 				index++;
 
 				// Update the x location for drawing by the size of the letter and one pixel.
-				drawX = drawX + m_Font[letter].size + 1.0f;
+				drawX = drawX + XOffset + 1 * scale;
 			}
 		}
 

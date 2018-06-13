@@ -33,7 +33,7 @@ public:
 
 	ID3D11ShaderResourceView* GetTexture();
 	
-	void BuildVertexArray(void*, char*, float, float);
+	void BuildVertexArray(void* vertices, char* sentence, float drawX, float drawY, XMFLOAT2 drawSize = XMFLOAT2(100,100));
 
 private:
 	bool LoadFontData(char*);

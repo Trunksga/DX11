@@ -1,4 +1,5 @@
 #include "SystemClass.h"
+#include <dinput.h>
 
 
 
@@ -30,7 +31,7 @@ bool SystemClass::Initialize()
 	m_Input = new InputClass;
 	if (!m_Input)
 		return false;
-	result = m_Input->Initialize();
+	result = m_Input->Initialize(m_hinstance, m_hwnd, screenWidth, screenHeight);
 	if (!result)
 		return false;
 	
@@ -68,7 +69,15 @@ void SystemClass::Run()
 		{
 			result = Frame();
 			if (!result)
+			{
+				MessageBox(m_hwnd, L"Frame Processing Failed", L"Error", MB_OK);
 				done = true;
+			}
+		}
+
+		if (m_Input->IsEscapePressed() == true)
+		{
+			done = true;
 		}
 	}
 }
@@ -84,6 +93,7 @@ void SystemClass::Shutdown()
 
 	if (m_Input)
 	{
+		m_Input->Shutdown();
 		delete m_Input;
 		m_Input = nullptr;
 	}
@@ -92,69 +102,62 @@ void SystemClass::Shutdown()
 
 LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
 {
-	switch (umsg)
-	{
-	case WM_KEYDOWN:
-		m_Input->KeyDown((unsigned int)wparam);
-		return 0;
-
-	case WM_KEYUP:
-		m_Input->KeyUp((unsigned int)wparam);
-		return 0;
-	default:
-		return DefWindowProc(hwnd, umsg, wparam, lparam);
-	}
-
-
+	return DefWindowProc(hwnd, umsg, wparam, lparam);
 }
 
 bool SystemClass::Frame()
 {
 	bool result = false;
-	if (m_Input->IsKeyDown(VK_ESCAPE))
+	int mouseX, mouseY;
+	result = m_Input->Frame();
+	if (!result)
+	{
 		return false;
-	if (m_Input->IsKeyDown(87))
+	}
+
+	if (m_Input->IsKeyDown(DIK_W))
 	{
 		m_Graphics->m_Camera->Forward(true);
 	}
-	if (m_Input->IsKeyDown(83))
+	if (m_Input->IsKeyDown(DIK_S))
 	{
 		m_Graphics->m_Camera->Forward(false);
 	}
-	if (m_Input->IsKeyDown(68))
+	if (m_Input->IsKeyDown(DIK_D))
 	{
 		m_Graphics->m_Camera->Right(true);
 	}
-	if (m_Input->IsKeyDown(65))
+	if (m_Input->IsKeyDown(DIK_A))
 	{
 		m_Graphics->m_Camera->Right(false);
 	}
-	if (m_Input->IsKeyDown(0x51))
+	if (m_Input->IsKeyDown(DIK_Q))
 	{
 		m_Graphics->m_Camera->Up(false);
 	}
-	if (m_Input->IsKeyDown(0x45))
+	if (m_Input->IsKeyDown(DIK_E))
 	{
 		m_Graphics->m_Camera->Up(true);
 	}
-	if (m_Input->IsKeyDown(VK_RIGHT))
+	if (m_Input->IsKeyDown(DIK_RIGHT))
 	{
 		m_Graphics->m_Camera->Yaw(true);
 	}
-	if (m_Input->IsKeyDown(VK_LEFT))
+	if (m_Input->IsKeyDown(DIK_LEFT))
 	{
 		m_Graphics->m_Camera->Yaw(false);
 	}
-	if (m_Input->IsKeyDown(VK_UP))
+	if (m_Input->IsKeyDown(DIK_UP))
 	{
 		m_Graphics->m_Camera->Pitch(true);
 	}
-	if (m_Input->IsKeyDown(VK_DOWN))
+	if (m_Input->IsKeyDown(DIK_DOWN))
 	{
 		m_Graphics->m_Camera->Pitch(false);
 	}
+	m_Input->GetMouseLocation(mouseX, mouseY);
 
-	result = m_Graphics->Frame();
+	result = m_Graphics->Frame(mouseX, mouseY);
 	if (!result)
 		return false;
 

@@ -222,6 +222,13 @@ bool BitmapClass::UpdateBuffers(ID3D11DeviceContext* deviceContext, int position
 	bottom = top - (float)m_bitmapHeight;
 	//Now that the coordinates are calculated create a temporary vertex array and fill it with the new six vertex points.
 
+	/*
+	left = 0;
+	right = 10; 
+	top = 0;
+	bottom = 10;
+	*/
+
 		// Create the vertex array.
 	vertices = new VertexType[m_vertexCount];
 	if (!vertices)

@@ -11,7 +11,7 @@
 #include "BitmapClass.h"
 #include "Textclass.h"
 
-const bool FULL_SCREEN = false;
+const bool FULL_SCREEN = true;
 const bool VSYNC_ENABLED = true;
 const float SCREEN_DEPTH = 1000.0f;
 const float SCREEN_NEAR = 0.1f;
@@ -24,11 +24,11 @@ public:
 
 	bool Initialize(int& screenWidth,int& screenHeight, HWND & m_hwnd);
 	void Shutdown();
-	bool Frame();
+	bool Frame(int mouseX,int mouseY);
 	
 	Cameraclass* m_Camera;
 private:
-	bool Render(float delta);
+	bool Render();
 private:
 	D3DClass *m_D3D = nullptr;
 	

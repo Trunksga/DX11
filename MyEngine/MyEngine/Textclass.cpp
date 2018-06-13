@@ -68,7 +68,7 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceCont
 	}
 
 	// Now update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_sentence1, "Hello", 100, 100, 1.0f, 1.0f, 1.0f, deviceContext);
+	result = UpdateSentence(m_sentence1, "Hello", 100, 100, 1.0f, 1.0f, 1.0f, deviceContext,XMFLOAT2(100,100));
 	if (!result)
 	{
 		return false;
@@ -82,7 +82,7 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceCont
 	}
 
 	// Now update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_sentence2, "Goodbye", 100, 200, 1.0f, 1.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_sentence2, "Goodbye", 100, 200, 1.0f, 1.0f, 0.0f, deviceContext, XMFLOAT2(100, 100));
 	if (!result)
 	{
 		return false;
@@ -134,6 +134,45 @@ bool TextClass::Render(ID3D11DeviceContext* deviceContext, XMMATRIX worldMatrix,
 
 	// Draw the second sentence.
 	result = RenderSentence(deviceContext, m_sentence2, worldMatrix, orthoMatrix);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+
+bool TextClass::SetMousePosition(int mouseX, int mouseY, ID3D11DeviceContext* deviceContext)
+{
+	char tempString[16];
+	char mouseString[16];
+	bool result;
+
+
+	// Convert the mouseX integer to string format.
+	_itoa_s(mouseX, tempString, 10);
+
+	// Setup the mouseX string.
+	strcpy_s(mouseString, "Mouse X: ");
+	strcat_s(mouseString, tempString);
+
+	// Update the sentence vertex buffer with the new string information.
+	result = UpdateSentence(m_sentence1, mouseString, mouseX, mouseY, 1.0f, 1.0f, 1.0f, deviceContext,XMFLOAT2(80,16));
+	if (!result)
+	{
+		return false;
+	}
+
+	// Convert the mouseY integer to string format.
+	_itoa_s(mouseY, tempString, 10);
+
+	// Setup the mouseY string.
+	strcpy_s(mouseString, "Mouse Y: ");
+	strcat_s(mouseString, tempString);
+
+	// Update the sentence vertex buffer with the new string information.
+	result = UpdateSentence(m_sentence2, mouseString, mouseX, mouseY+40, 1.0f, 1.0f, 1.0f, deviceContext, XMFLOAT2(80, 16));
 	if (!result)
 	{
 		return false;
@@ -245,7 +284,7 @@ bool TextClass::InitializeSentence(SentenceType** sentence, int maxLength, ID3D1
 
 
 bool TextClass::UpdateSentence(SentenceType* sentence, char* text, int positionX, int positionY, float red, float green, float blue,
-	ID3D11DeviceContext* deviceContext)
+	ID3D11DeviceContext* deviceContext, XMFLOAT2 DrawSize /*= XMFLOAT2(10,10) */)
 {
 	int numLetters;
 	VertexType* vertices;
@@ -277,7 +316,7 @@ bool TextClass::UpdateSentence(SentenceType* sentence, char* text, int positionX
 	memset(vertices, 0, (sizeof(VertexType) * sentence->vertexCount));
 	drawX = (float)(((m_screenWidth / 2) * -1) + positionX);
 	drawY = (float)((m_screenHeight / 2) - positionY);
-	m_Font->BuildVertexArray((void*)vertices, text, drawX, drawY);
+	m_Font->BuildVertexArray((void*)vertices, text, drawX, drawY,DrawSize);
 	result = deviceContext->Map(sentence->vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result))
 	{

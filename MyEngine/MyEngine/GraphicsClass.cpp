@@ -233,26 +233,28 @@ void GraphicsClass::Shutdown()
 	return;
 }
 
-bool GraphicsClass::Frame()
+bool GraphicsClass::Frame(int mouseX,int mouseY)
 {
-	
-	static float rotation = 0.0f;
+	bool result = false;
 
-	rotation += (float)XM_PI*0.005f;
-	bool result;
-	if (rotation > 360.0f)
-	{
-		rotation -= 360.0f;
-	}
-	result = Render(rotation);
+#if 1 
+
+	result = m_Text->SetMousePosition(mouseX, mouseY, m_D3D->GetDeviceContext());
 	if (!result)
 	{
 		return false;
 	}
+#endif
+
+	result = Render();
+	if (!result)
+		return false;
+
+
 	return true;
 }
 
-bool GraphicsClass::Render(float delta)
+bool GraphicsClass::Render()
 {
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix;
 	bool result;
@@ -261,21 +263,8 @@ bool GraphicsClass::Render(float delta)
 	m_Camera->Render();
 	m_Camera->GetViewMatrix(viewMatrix);
 	m_D3D->GetProjectionMatrix(projectionMatrix);
-	m_D3D->GetWorlMatrix(worldMatrix);
-
-	//worldMatrix *= XMMatrixRotationY(delta);
-
-
-	
-// 	result = m_ColorShader->Render(m_D3D->GetDeviceContext(),m_Model->GetIndexCount(),worldMatrix,viewMatrix,projectionMatrix);
-// 	if (!result)
-// 	{
-// 		return false;
-// 	}
-	//m_light->SetDirection(1.0, 1.0, delta / 360.f);
 	m_D3D->GetOrthoMatrix(orthoMatrix);
-	// Turn off the Z buffer to begin all 2D rendering.
-	
+	m_D3D->GetWorlMatrix(worldMatrix);
 	m_D3D->TurnOnAlphaBlending();
 
 	// Put the bitmap vertex and index buffers on the graphics pipeline to prepare them for drawing.
@@ -293,7 +282,7 @@ bool GraphicsClass::Render(float delta)
 
 
 #if 1
-	m_D3D->TurnZBufferOff();
+	m_D3D->TurnZBufferOn();
 	result = m_Bitmap->Render(m_D3D->GetDeviceContext(), 0, 0);
 	if (!result)
 	{
@@ -317,7 +306,6 @@ bool GraphicsClass::Render(float delta)
 	// Turn off alpha blending after rendering the text.
 #endif
 
-	m_D3D->TurnOffAlphaBlending();
 	m_D3D->EndScene();
 	return true;
 }
