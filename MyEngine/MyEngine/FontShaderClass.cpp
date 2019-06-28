@@ -1,4 +1,5 @@
 #include "FontShaderClass.h"
+#include <tchar.h>
 
 
 
@@ -30,7 +31,7 @@ bool FontShaderClass::Initialize(ID3D11Device* device, HWND hwnd)
 {
 	bool result;
 	
-	result = InitializeShader(device, hwnd, L"Font.hlsl", L"Font.hlsl");
+	result = InitializeShader(device, hwnd, (WCHAR*)L"Font.hlsl", (WCHAR*)L"Font.hlsl");
 	if (!result)
 	{
 		return false;

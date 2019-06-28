@@ -61,101 +61,39 @@
     <Filter Include="头文件\SystemClass\GraphicesClass\Textclass">
       <UniqueIdentifier>{e93a84ac-3f70-4b5c-886c-131f382e0a28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\SystemClass\SoundClass">
+      <UniqueIdentifier>{559ad899-14d8-45bd-9eca-74837cb1d084}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\FpsClass">
+      <UniqueIdentifier>{9f21b54d-2fcd-4860-be68-126fc71be410}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\CpuClass">
+      <UniqueIdentifier>{e2995e84-b15c-4ac0-85d7-b87154f27c12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\TimerClass">
+      <UniqueIdentifier>{7df1bd09-0454-420d-8d51-b84fb320836a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\FrustumClass">
+      <UniqueIdentifier>{af8ccc09-0dae-434c-8077-53925330b22b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\PositionClass">
+      <UniqueIdentifier>{83685a3b-374f-4ebe-86a6-4d86b776f6ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SystemClass\GraphicesClass\ModelListClass">
+      <UniqueIdentifier>{251ea3e8-b342-4a79-93dc-043aa564f711}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SystemClass.h">
-      <Filter>头文件\SystemClass</Filter>
-    </ClInclude>
-    <ClInclude Include="InputClass.h">
-      <Filter>头文件\SystemClass\InputClass</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsClass.h">
-      <Filter>头文件\SystemClass\GraphicesClass</Filter>
-    </ClInclude>
-    <ClInclude Include="D3DClass.h">
-      <Filter>头文件\SystemClass\GraphicesClass\D3DClass</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelClass.h">
-      <Filter>头文件\SystemClass\GraphicesClass\ModelClass</Filter>
-    </ClInclude>
-    <ClInclude Include="Cameraclass.h">
-      <Filter>头文件\SystemClass\GraphicesClass\CameraClass</Filter>
-    </ClInclude>
-    <ClInclude Include="ColorShaderClass.h">
-      <Filter>头文件\SystemClass\GraphicesClass\ColorShaderClass</Filter>
-    </ClInclude>
-    <ClInclude Include="Lightshaderclass.h">
-      <Filter>头文件\SystemClass\GraphicesClass\LightShaderClass</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureClass.h">
-      <Filter>头文件\SystemClass\GraphicesClass\ModelClass\TextureClass</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureshaderClass.h">
-      <Filter>头文件\SystemClass\GraphicesClass\TextureShaderClass</Filter>
-    </ClInclude>
-    <ClInclude Include="IShaderClass.h">
-      <Filter>头文件\SystemClass\GraphicesClass</Filter>
-    </ClInclude>
-    <ClInclude Include="LightClass.h">
-      <Filter>头文件\SystemClass\GraphicesClass\LightClass</Filter>
-    </ClInclude>
-    <ClInclude Include="Bitmapclass.h">
-      <Filter>头文件\SystemClass\GraphicesClass\Bitmapclass</Filter>
-    </ClInclude>
-    <ClInclude Include="FontClass.h">
-      <Filter>头文件\SystemClass\GraphicesClass\Fontclass</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FontShaderClass.h">
-      <Filter>头文件\SystemClass\GraphicesClass\Fontshaderclass</Filter>
-    </ClInclude>
-    <ClInclude Include="Textclass.h">
-      <Filter>头文件\SystemClass\GraphicesClass\Textclass</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="SystemClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="InputClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="D3DClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ColorShaderClass.cpp">
+    <ClCompile Include="Bitmapclass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Cameraclass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="TextureClass.cpp">
+    <ClCompile Include="ColorShaderClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="TextureshaderClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Lightshaderclass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="IShaderClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="LightClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Bitmapclass.cpp">
+    <ClCompile Include="D3DClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="FontClass.cpp">
@@ -164,27 +102,133 @@
     <ClCompile Include="FontShaderClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicsClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="InputClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="IShaderClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LightClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Lightshaderclass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="Textclass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureshaderClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CpuClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FrustumClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PositionClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelListClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Light.hlsl">
-      <Filter>源文件\Shader</Filter>
-    </None>
-    <None Include="color.hlsl">
-      <Filter>源文件\Shader</Filter>
-    </None>
-    <None Include="Texture.hlsl">
-      <Filter>源文件\Shader</Filter>
-    </None>
-    <None Include="Font.hlsl">
-      <Filter>源文件\Shader</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="MyEngine.rc">
-      <Filter>资源文件</Filter>
-    </ResourceCompile>
+    <ClInclude Include="Bitmapclass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\Bitmapclass</Filter>
+    </ClInclude>
+    <ClInclude Include="Cameraclass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\CameraClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorShaderClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\ColorShaderClass</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\D3DClass</Filter>
+    </ClInclude>
+    <ClInclude Include="FontClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\Fontclass</Filter>
+    </ClInclude>
+    <ClInclude Include="FontShaderClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\Fontshaderclass</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass</Filter>
+    </ClInclude>
+    <ClInclude Include="InputClass.h">
+      <Filter>头文件\SystemClass\InputClass</Filter>
+    </ClInclude>
+    <ClInclude Include="IShaderClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass</Filter>
+    </ClInclude>
+    <ClInclude Include="LightClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\LightClass</Filter>
+    </ClInclude>
+    <ClInclude Include="Lightshaderclass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\LightShaderClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\ModelClass</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件\SystemClass\GraphicesClass</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemClass.h">
+      <Filter>头文件\SystemClass</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\ModelClass\TextureClass</Filter>
+    </ClInclude>
+    <ClInclude Include="Textclass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\Textclass</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureshaderClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\TextureShaderClass</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundClass.h">
+      <Filter>头文件\SystemClass\SoundClass</Filter>
+    </ClInclude>
+    <ClInclude Include="FpsClass.h">
+      <Filter>头文件\SystemClass\FpsClass</Filter>
+    </ClInclude>
+    <ClInclude Include="CpuClass.h">
+      <Filter>头文件\SystemClass\CpuClass</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerClass.h">
+      <Filter>头文件\SystemClass\TimerClass</Filter>
+    </ClInclude>
+    <ClInclude Include="FrustumClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\FrustumClass</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionClass.h">
+      <Filter>头文件\SystemClass\PositionClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelListClass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

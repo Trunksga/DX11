@@ -21,13 +21,11 @@ TextureshaderClass::~TextureshaderClass()
 bool TextureshaderClass::Initialize(ID3D11Device* device, HWND hwnd)
 {
 	bool result;
-	result = InitializeShader(device, hwnd, L"Texture.hlsl", L"Texture.hlsl");
+	result = InitializeShader(device, hwnd, (WCHAR*)L"Texture.hlsl",(WCHAR*) L"Texture.hlsl");
 	if (!result)
 	{
 		return false;
 	}
-
-
 	return true;
 }
 

@@ -10,8 +10,10 @@
 #include "LightClass.h"
 #include "BitmapClass.h"
 #include "Textclass.h"
+#include "modellistclass.h"
+#include "frustumclass.h"
 
-const bool FULL_SCREEN = true;
+const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
 const float SCREEN_DEPTH = 1000.0f;
 const float SCREEN_NEAR = 0.1f;
@@ -24,7 +26,8 @@ public:
 
 	bool Initialize(int& screenWidth,int& screenHeight, HWND & m_hwnd);
 	void Shutdown();
-	bool Frame(int mouseX,int mouseY);
+	bool SetMousePosition(int mouseX,int mouseY);
+	bool Frame(int fps, int cpu, float frameTime);
 	
 	Cameraclass* m_Camera;
 private:
@@ -43,5 +46,8 @@ private:
 	BitmapClass* m_Bitmap;
 
 	TextClass* m_Text;
+
+	ModelListClass * m_ModelList;
+	FrustumClass* m_Frustum;
 };
 

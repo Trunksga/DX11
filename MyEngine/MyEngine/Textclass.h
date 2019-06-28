@@ -28,7 +28,11 @@ public:
 	bool Initialize(ID3D11Device*, ID3D11DeviceContext*, HWND, int, int, XMMATRIX);
 	void Shutdown();
 	bool Render(ID3D11DeviceContext*, XMMATRIX, XMMATRIX);
-	bool SetMousePosition(int, int, ID3D11DeviceContext*);
+	bool SetMousePosition(int, int);
+	bool SetRenderCount(int count, ID3D11DeviceContext* deviceContext);
+	bool SetFps(int fps, ID3D11DeviceContext* deviceContext);
+	bool SetCpu(int cpu, ID3D11DeviceContext* deviceContext);
+	
 private:
 	bool InitializeSentence(SentenceType**, int, ID3D11Device*);
 	bool UpdateSentence(SentenceType* sentence, char* text, int positionX, int positionY, float red, float green, float blue,
@@ -43,6 +47,8 @@ private:
 	XMMATRIX m_baseViewMatrix;
 	SentenceType* m_sentence1;
 	SentenceType* m_sentence2;
+
+	XMFLOAT2 m_mouse_position;
 };
 
 

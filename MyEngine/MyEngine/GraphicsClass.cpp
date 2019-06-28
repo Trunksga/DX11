@@ -15,6 +15,8 @@ GraphicsClass::GraphicsClass()
 	m_light = 0;
 	m_Bitmap = 0;
 	m_Text = 0;
+	m_ModelList = 0;
+	m_Frustum = 0;
 }
 
 
@@ -59,7 +61,7 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 	{
 		return false;
 	}
-	result = m_Model->Initialize(m_D3D->GetDevice(), "model.txt", L"decal.dds");
+	result = m_Model->Initialize(m_D3D->GetDevice(), (char*)"model.txt", (WCHAR*)L"decal.dds");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
@@ -126,7 +128,7 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 	}
 
 	// Initialize the bitmap object.
-	result = m_Bitmap->Initialize(m_D3D->GetDevice(), screenWidth, screenHeight, L"decal.dds", 256, 256);
+	result = m_Bitmap->Initialize(m_D3D->GetDevice(), screenWidth, screenHeight, (WCHAR*)L"decal.dds", 256, 256);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the bitmap object.", L"Error", MB_OK);
@@ -147,11 +149,43 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 		return false;
 	}
 
+	m_ModelList = new ModelListClass;
+	if (!m_ModelList)
+	{
+		return false;
+	}
+	result = m_ModelList->Initalize(100);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the model list object.", L"Error", MB_OK);
+		return false;
+	}
+
+	m_Frustum = new FrustumClass;
+	if (!m_Frustum)
+	{
+		return false;
+	}
+
 	return true;
 }
 
 void GraphicsClass::Shutdown()
 {
+	if (m_Frustum)
+	{
+		delete m_Frustum;
+		m_Frustum = 0;
+	}
+
+	// Release the model list object.
+	if (m_ModelList)
+	{
+		m_ModelList->Shutdown();
+		delete m_ModelList;
+		m_ModelList = 0;
+	}
+
 	if (m_Text)
 	{
 		m_Text->Shutdown();
@@ -233,23 +267,44 @@ void GraphicsClass::Shutdown()
 	return;
 }
 
-bool GraphicsClass::Frame(int mouseX,int mouseY)
+bool GraphicsClass::SetMousePosition(int mouseX,int mouseY)
 {
 	bool result = false;
 
 #if 1 
 
-	result = m_Text->SetMousePosition(mouseX, mouseY, m_D3D->GetDeviceContext());
+	result = m_Text->SetMousePosition(mouseX, mouseY);
 	if (!result)
 	{
 		return false;
 	}
 #endif
+	return true;
+}
 
+bool GraphicsClass::Frame(int fps, int cpu, float frameTime)
+{
+	bool result;
+
+
+	// Set the frames per second.
+	result = m_Text->SetFps(fps, m_D3D->GetDeviceContext());
+	if (!result)
+	{
+		return false;
+	}
+
+	// Set the cpu usage.
+	result = m_Text->SetCpu(cpu, m_D3D->GetDeviceContext());
+	if (!result)
+	{
+		return false;
+	}
 	result = Render();
 	if (!result)
 		return false;
-
+	// Set the position of the camera.
+	//m_Camera->SetPosition(0.0f, 0.0f, -10.0f);
 
 	return true;
 }
@@ -257,7 +312,10 @@ bool GraphicsClass::Frame(int mouseX,int mouseY)
 bool GraphicsClass::Render()
 {
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix;
-	bool result;
+	bool renderModel, result;
+	D3DXVECTOR4 color;
+	int modelCount, renderCount, index;
+	float positionX, positionY, positionZ, radius;
 	m_D3D->BeginScene(0,0,0,1.0f);
 
 	m_Camera->Render();
@@ -265,10 +323,56 @@ bool GraphicsClass::Render()
 	m_D3D->GetProjectionMatrix(projectionMatrix);
 	m_D3D->GetOrthoMatrix(orthoMatrix);
 	m_D3D->GetWorlMatrix(worldMatrix);
-	m_D3D->TurnOnAlphaBlending();
+
+
+
+
+	XMFLOAT4X4 projectionMatrixEx, viewMatrixEx;
+	XMStoreFloat4x4(&projectionMatrixEx, projectionMatrix);
+	XMStoreFloat4x4(&viewMatrixEx, viewMatrix);
+	m_Frustum->ConstructFrustum(SCREEN_DEPTH,* (D3DXMATRIX*) &projectionMatrixEx, *(D3DXMATRIX*)&viewMatrixEx);
+	modelCount = m_ModelList->GetModelCount();
+	renderCount = 0;
+
+	
+	for (index = 0; index < modelCount; index++)
+	{
+		// Get the position and color of the sphere model at this index.
+		m_ModelList->GetData(index, positionX, positionY, positionZ, color);
+
+		// Set the radius of the sphere to 1.0 since this is already known.
+		radius = 1.0f;
+		
+		// Check if the sphere model is in the view frustum.
+		renderModel = m_Frustum->CheckSphere(positionX, positionY, positionZ, radius);
+
+		// If it can be seen then render it, if not skip this model and check the next sphere.
+		if (renderModel)
+		{
+			// Move the model to the location it should be rendered at.
+			//D3DXMatrixTranslation(&worldMatrix, positionX, positionY, positionZ);
+			worldMatrix = XMMatrixTranslation(positionX, positionY, positionZ);
+			// Put the model vertex and index buffers on the graphics pipeline to prepare them for drawing.
+			m_Model->Render(m_D3D->GetDeviceContext());
+
+			// Render the model using the light shader.
+			//m_lightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
+				//m_Model->GetTexture(), m_light->GetDirection(), color);
+			result = m_lightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
+				m_Model->GetTexture(), m_light->GetDirection(), XMFLOAT4(color.x, color.y, color.z, color.w), XMFLOAT4(color.x,color.y,color.z,color.w) ,
+				m_Camera->GetPosition(), m_light->GetSpecularColor(), m_light->GetSpecularPower());
+			// Reset to the original world matrix.
+			m_D3D->GetWorlMatrix(worldMatrix);
+			
+			// Since this model was rendered then increase the count for this frame.
+			renderCount++;
+		}
+	}
+
+
 
 	// Put the bitmap vertex and index buffers on the graphics pipeline to prepare them for drawing.
-#if 1
+#if 0
 	m_D3D->TurnZBufferOn();
 	m_Model->Render(m_D3D->GetDeviceContext());
 	result = m_lightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture(), m_light->GetDirection(), m_light->GetAmbientColor(), m_light->GetDiffuseColor(), m_Camera->GetPosition(), m_light->GetSpecularColor(), m_light->GetSpecularPower());
@@ -281,7 +385,7 @@ bool GraphicsClass::Render()
 
 
 
-#if 1
+#if 0
 	m_D3D->TurnZBufferOn();
 	result = m_Bitmap->Render(m_D3D->GetDeviceContext(), 0, 0);
 	if (!result)
@@ -297,7 +401,9 @@ bool GraphicsClass::Render()
 
 #if 1
 	m_D3D->TurnZBufferOff();
+	m_D3D->TurnOnAlphaBlending();
 	//m_Text->SetbaseViewMatrix(viewMatrix);
+	result = m_Text->SetRenderCount(renderCount, m_D3D->GetDeviceContext());
 	result = m_Text->Render(m_D3D->GetDeviceContext(), worldMatrix, orthoMatrix);
 	if (!result)
 	{
@@ -305,7 +411,8 @@ bool GraphicsClass::Render()
 	}
 	// Turn off alpha blending after rendering the text.
 #endif
-
+	m_D3D->TurnOffAlphaBlending();
+	m_D3D->TurnZBufferOn();
 	m_D3D->EndScene();
 	return true;
 }

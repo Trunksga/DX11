@@ -26,7 +26,7 @@ bool Lightshaderclass::Initialize(ID3D11Device*device, HWND hwnd)
 {
 	bool result;
 	
-	result = InitializeShader(device, hwnd, L"Light.hlsl", L"Light.hlsl");
+	result = InitializeShader(device, hwnd, (WCHAR*)L"Light.hlsl", (WCHAR*)L"Light.hlsl");
 	if (!result)
 	{
 		return false;

@@ -2,7 +2,7 @@
 #include <D3DX11async.h>
 #include <d3dcompiler.h>
 #include <fstream>
-
+#include <tchar.h>
 
 
 ColorShaderClass::ColorShaderClass()
@@ -26,7 +26,7 @@ ColorShaderClass::~ColorShaderClass()
 bool ColorShaderClass::Initialze(ID3D11Device * device, HWND hwnd)
 {
 	bool result;
-	result = InitialzeShader(device, hwnd, L"color.hlsl", L"color.hlsl");
+	result = InitialzeShader(device, hwnd, (WCHAR*)L"color.hlsl", (WCHAR*)L"color.hlsl");
 	return result;
 }
 
