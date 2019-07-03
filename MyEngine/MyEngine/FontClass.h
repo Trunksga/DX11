@@ -31,7 +31,7 @@ public:
 	bool Initialize(ID3D11Device*, char*, WCHAR*);
 	void Shutdown();
 
-	ID3D11ShaderResourceView* GetTexture();
+	vector<ID3D11ShaderResourceView*> GetTexture();
 	
 	void BuildVertexArray(void* vertices, char* sentence, float drawX, float drawY, XMFLOAT2 drawSize = XMFLOAT2(100,100));
 

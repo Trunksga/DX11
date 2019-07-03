@@ -145,8 +145,8 @@ bool TextClass::Render(ID3D11DeviceContext* deviceContext, XMMATRIX worldMatrix,
 
 bool TextClass::SetMousePosition(int mouseX, int mouseY)
 {
-	m_mouse_position.x = mouseX;
-	m_mouse_position.y = mouseY;
+	m_mouse_position.x = (float)mouseX;
+	m_mouse_position.y = (float)mouseY;
 
 	return true;
 }
@@ -167,7 +167,7 @@ bool TextClass::SetRenderCount(int count, ID3D11DeviceContext* deviceContext)
 	strcat_s(cpuString, tempString);
 
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_sentence2, cpuString, m_mouse_position.x, m_mouse_position.y + 20, 0.0f, 1.0f, 0.0f, deviceContext, XMFLOAT2(80, 16));
+	result = UpdateSentence(m_sentence2, cpuString, (int)m_mouse_position.x, (int)(m_mouse_position.y + 20), 0.0f, 1.0f, 0.0f, deviceContext, XMFLOAT2(80, 16));
 	if (!result)
 	{
 		return false;
@@ -222,7 +222,7 @@ bool TextClass::SetFps(int fps, ID3D11DeviceContext* deviceContext)
 	}
 
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_sentence1, fpsString, m_mouse_position.x, m_mouse_position.y, red, green, blue, deviceContext, XMFLOAT2(80, 16));
+	result = UpdateSentence(m_sentence1, fpsString, (int)m_mouse_position.x, (int)m_mouse_position.y, red, green, blue, deviceContext, XMFLOAT2(80, 16));
 	if (!result)
 	{
 		return false;
@@ -247,7 +247,7 @@ bool TextClass::SetCpu(int cpu, ID3D11DeviceContext* deviceContext)
 	strcat_s(cpuString, "%");
 
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_sentence2, cpuString, m_mouse_position.x, m_mouse_position.y + 20, 0.0f, 1.0f, 0.0f, deviceContext, XMFLOAT2(80, 16));
+	result = UpdateSentence(m_sentence2, cpuString, (int)m_mouse_position.x, (int)(m_mouse_position.y + 20), 0.0f, 1.0f, 0.0f, deviceContext, XMFLOAT2(80, 16));
 	if (!result)
 	{
 		return false;
@@ -466,7 +466,7 @@ bool TextClass::RenderSentence(ID3D11DeviceContext* deviceContext, SentenceType*
 	pixelColor = XMFLOAT4(sentence->red, sentence->green, sentence->blue, 1.0f);
 
 	// Render the text using the font shader.
-	result = m_FontShader->Render(deviceContext, sentence->indexCount, worldMatrix, m_baseViewMatrix, orthoMatrix, m_Font->GetTexture(),
+	result = m_FontShader->Render(deviceContext, sentence->indexCount, worldMatrix, m_baseViewMatrix, orthoMatrix, m_Font->GetTexture()[0],
 		pixelColor);
 	if (!result)
 	{

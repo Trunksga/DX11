@@ -1,5 +1,8 @@
 #pragma once
 #include <D3D11.h>
+#include "vector"
+#include <string>
+using namespace std;
 class TextureClass
 {
 public:
@@ -7,13 +10,13 @@ public:
 	TextureClass(const TextureClass&);
 	~TextureClass();
 
-	bool Initialize(ID3D11Device* device, WCHAR* imageName);
+	bool Initialize(ID3D11Device* device, vector<wstring> imagesName);
 	void Shutdown();
 	
-
-	ID3D11ShaderResourceView* GetTexture();
+	vector<ID3D11ShaderResourceView*> GetTextureArray();
 
 private:
-	ID3D11ShaderResourceView* m_texture;
+	void ReleaseTextur();
+	vector<ID3D11ShaderResourceView*>  m_texture;
 };
 

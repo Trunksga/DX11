@@ -1,6 +1,7 @@
 ﻿#include "GraphicsClass.h"
 #include <stdio.h>
 #include "DirectXMath.h"
+#include "MultiTextureShaderClass.h"
 
 
 
@@ -61,7 +62,8 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 	{
 		return false;
 	}
-	result = m_Model->Initialize(m_D3D->GetDevice(), (char*)"model.txt", (WCHAR*)L"decal.dds");
+	vector<wstring> textureNames = { L"decal.dds",L"decal.dds" };
+	result = m_Model->Initialize(m_D3D->GetDevice(), (char*)"model.txt", textureNames);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
@@ -81,7 +83,8 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 		MessageBox(hwnd, L"Could not Initialize the color shader object",L"Error",MB_OK);
 	}
 
-	m_TextureShader = new TextureshaderClass;
+	m_TextureShader = new MultiTextureShaderClass;
+	//m_TextureShader = new TextureshaderClass;
 	if (!m_TextureShader)
 	{
 		return false;
@@ -127,8 +130,9 @@ bool GraphicsClass::Initialize(int& screenWidth, int& screenHeight, HWND & hwnd)
 		return false;
 	}
 
+	vector<wstring> textureName = { L"dirt01.dds" ,L"stone01.dds" };
 	// Initialize the bitmap object.
-	result = m_Bitmap->Initialize(m_D3D->GetDevice(), screenWidth, screenHeight, (WCHAR*)L"decal.dds", 256, 256);
+	result = m_Bitmap->Initialize(m_D3D->GetDevice(), screenWidth, screenHeight, textureName, 256, 256);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the bitmap object.", L"Error", MB_OK);
@@ -359,7 +363,7 @@ bool GraphicsClass::Render()
 			//m_lightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
 				//m_Model->GetTexture(), m_light->GetDirection(), color);
 			result = m_lightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
-				m_Model->GetTexture(), m_light->GetDirection(), XMFLOAT4(color.x, color.y, color.z, color.w), XMFLOAT4(color.x,color.y,color.z,color.w) ,
+				m_Model->GetTexture()[0], m_light->GetDirection(), XMFLOAT4(color.x, color.y, color.z, color.w), XMFLOAT4(color.x,color.y,color.z,color.w) ,
 				m_Camera->GetPosition(), m_light->GetSpecularColor(), m_light->GetSpecularPower());
 			// Reset to the original world matrix.
 			m_D3D->GetWorlMatrix(worldMatrix);
@@ -385,7 +389,7 @@ bool GraphicsClass::Render()
 
 
 
-#if 0
+#if 1
 	m_D3D->TurnZBufferOn();
 	result = m_Bitmap->Render(m_D3D->GetDeviceContext(), 0, 0);
 	if (!result)

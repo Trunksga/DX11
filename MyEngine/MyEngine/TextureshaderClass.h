@@ -3,6 +3,7 @@
 #include <d3dx11async.h>
 #include <fstream>
 #include "DirectXMath.h"
+#include <vector>
 using namespace DirectX;
 using namespace std;
 
@@ -18,19 +19,25 @@ private:
 
 public:
 	TextureshaderClass();
-	~TextureshaderClass();
+	virtual ~TextureshaderClass();
 	bool Initialize(ID3D11Device* device, HWND hwnd);
 	void Shutdown();
-	bool Render(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX wrold, XMMATRIX view, XMMATRIX projection, ID3D11ShaderResourceView* texture);
+	bool Render(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX wrold, XMMATRIX view, XMMATRIX projection, vector<ID3D11ShaderResourceView*> texture);
 
 private:
 	bool InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* vsFileName, WCHAR* psFileName);
 	void ShutdownShader();
 	void OutputShaderErrorMessage(ID3D10Blob* blob, HWND hwnd, WCHAR* outFileName);
 
-	bool SetShaderParameters(ID3D11DeviceContext* deviceContext, XMMATRIX& world, XMMATRIX& view, XMMATRIX& projection, ID3D11ShaderResourceView* texture);
+	bool SetShaderParameters(ID3D11DeviceContext* deviceContext, XMMATRIX& world, XMMATRIX& view, XMMATRIX& projection, vector<ID3D11ShaderResourceView*> texture);
 	void RenderShader(ID3D11DeviceContext* deviceContext, int indexCount);
 
+protected:
+	wstring vsFileName = L"Texture.hlsl";
+	wstring psFileName = L"Texture.hlsl";
+	string vsShaderName = "TextureVertexShader";
+	string psShaderName = "TexturePixelShader";
+	 
 private:
 	ID3D11VertexShader* m_vertexShader = 0;
 	ID3D11PixelShader* m_pixelShader = 0;

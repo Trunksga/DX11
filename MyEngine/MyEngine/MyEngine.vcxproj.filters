@@ -156,6 +156,9 @@
     <ClCompile Include="ModelListClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="MultiTextureShaderClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bitmapclass.h">
@@ -227,8 +230,11 @@
     <ClInclude Include="PositionClass.h">
       <Filter>头文件\SystemClass\PositionClass</Filter>
     </ClInclude>
+    <ClInclude Include="MultiTextureShaderClass.h">
+      <Filter>头文件\SystemClass\GraphicesClass\TextureShaderClass</Filter>
+    </ClInclude>
     <ClInclude Include="ModelListClass.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\SystemClass\GraphicesClass\ModelListClass</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

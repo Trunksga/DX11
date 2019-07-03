@@ -25,7 +25,7 @@ ModelClass::~ModelClass()
 
 }
 
-bool ModelClass::Initialize(ID3D11Device* d3DDevice, char* ModelFileName, WCHAR* TextureFileName)
+bool ModelClass::Initialize(ID3D11Device* d3DDevice, char* ModelFileName, vector<wstring> TextureFileName)
 {
 
 	bool result = false;
@@ -170,7 +170,7 @@ void ModelClass::RenderBuffers(ID3D11DeviceContext* d3DDeviceContext)
 	return;
 }
 
-bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* imageName)
+bool ModelClass::LoadTexture(ID3D11Device* device, vector<wstring> imageName)
 {
 	bool result;
 
@@ -268,7 +268,7 @@ int ModelClass::GetIndexCount()
 	return m_indexCount;
 }
 
-ID3D11ShaderResourceView* ModelClass::GetTexture()
+vector<ID3D11ShaderResourceView*> ModelClass::GetTexture()
 {
-	return m_Texture->GetTexture();
+	return m_Texture->GetTextureArray();
 }

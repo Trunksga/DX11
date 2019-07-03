@@ -21,7 +21,7 @@ TextureshaderClass::~TextureshaderClass()
 bool TextureshaderClass::Initialize(ID3D11Device* device, HWND hwnd)
 {
 	bool result;
-	result = InitializeShader(device, hwnd, (WCHAR*)L"Texture.hlsl",(WCHAR*) L"Texture.hlsl");
+	result = InitializeShader(device, hwnd,(WCHAR*) vsFileName.data(), (WCHAR*)psFileName.data());
 	if (!result)
 	{
 		return false;
@@ -35,7 +35,7 @@ void TextureshaderClass::Shutdown()
 
 }
 
-bool TextureshaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX wrold, XMMATRIX view, XMMATRIX projection, ID3D11ShaderResourceView* texture)
+bool TextureshaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX wrold, XMMATRIX view, XMMATRIX projection, vector<ID3D11ShaderResourceView*> texture)
 {
 	bool result;
 
@@ -64,7 +64,7 @@ bool TextureshaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR
 
 	D3D11_SAMPLER_DESC samplerDesc;
 	
-	result = D3DX11CompileFromFile(vsFileName, nullptr, nullptr, "TextureVertexShader", "vs_5_0", D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, nullptr, &vertexShaderBuffer, &errorMessage, nullptr);
+	result = D3DX11CompileFromFile(vsFileName, nullptr, nullptr, vsShaderName.data(), "vs_5_0", D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, nullptr, &vertexShaderBuffer, &errorMessage, nullptr);
 
 	if (FAILED(result))
 	{
@@ -82,7 +82,7 @@ bool TextureshaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR
 		return false;
 	}
 
-	result = D3DX11CompileFromFile(psFileName, NULL, NULL, "TexturePixelShader", "ps_5_0", D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, NULL,
+	result = D3DX11CompileFromFile(psFileName, NULL, NULL, psShaderName.data(), "ps_5_0", D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, NULL,
 		&pixelShaderBuffer, &errorMessage, NULL);
 	if (FAILED(result))
 	{
@@ -259,7 +259,8 @@ void TextureshaderClass::OutputShaderErrorMessage(ID3D10Blob* blob, HWND hwnd, W
 	return;
 }
 
-bool TextureshaderClass::SetShaderParameters(ID3D11DeviceContext* deviceContext, XMMATRIX& world, XMMATRIX& view, XMMATRIX& projection, ID3D11ShaderResourceView* texture)
+bool TextureshaderClass::SetShaderParameters(ID3D11DeviceContext* deviceContext, XMMATRIX& world, XMMATRIX& view, XMMATRIX& projection, 
+	vector<ID3D11ShaderResourceView*> texture)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -296,7 +297,7 @@ bool TextureshaderClass::SetShaderParameters(ID3D11DeviceContext* deviceContext,
 	
 	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_matrixBuffer);
 	
-	deviceContext->PSSetShaderResources(0, 1, &texture);
+	deviceContext->PSSetShaderResources(0, texture.size(), texture.data());
 
 	return true;
 }

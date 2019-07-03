@@ -12,6 +12,7 @@
 #include "Textclass.h"
 #include "modellistclass.h"
 #include "frustumclass.h"
+#include "MultiTextureShaderClass.h"
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;

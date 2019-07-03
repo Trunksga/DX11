@@ -18,12 +18,12 @@ public:
 	~BitmapClass();
 
 
-	bool Initialize(ID3D11Device* d3d_device, int, int, WCHAR*, int, int);
+	bool Initialize(ID3D11Device* d3d_device, int, int, vector<wstring>, int, int);
 	void Shutdown();
 	bool Render(ID3D11DeviceContext*, int, int);
 
 	int GetIndexCount();
-	ID3D11ShaderResourceView* GetTexture();
+	vector<ID3D11ShaderResourceView*> GetTexture();
 
 private:
 	bool InitializeBuffers(ID3D11Device*);
@@ -31,7 +31,7 @@ private:
 	bool UpdateBuffers(ID3D11DeviceContext*, int, int);
 	void RenderBuffers(ID3D11DeviceContext*);
 
-	bool LoadTexture(ID3D11Device*, WCHAR*);
+	bool LoadTexture(ID3D11Device*, vector<wstring>);
 	void ReleaseTexture();
 
 private:

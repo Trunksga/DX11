@@ -6,7 +6,6 @@
 TextureClass::TextureClass()
 {
 
-	m_texture = 0;
 }
 
 
@@ -19,31 +18,46 @@ TextureClass::~TextureClass()
 {
 }
 
-bool TextureClass::Initialize(ID3D11Device* device, WCHAR* imageName)
+bool TextureClass::Initialize(ID3D11Device* device, vector<wstring> imageName)
 {
 	HRESULT result;
-
-	result = D3DX11CreateShaderResourceViewFromFile(device, imageName, nullptr, nullptr, &m_texture, nullptr);
-
-	if (FAILED(result))
+	int imageNameCount = imageName.size();
+	ReleaseTextur();
+	m_texture.resize(imageNameCount);
+	for (int i = 0; i < imageNameCount;  i++)
 	{
-		return false;
+		result = D3DX11CreateShaderResourceViewFromFile(device, imageName[i].data(), nullptr, nullptr, &m_texture[i], nullptr);
+		if (FAILED(result))
+		{
+			return false;
+		}
 	}
+
+	
 	return true;
 }
 
 void TextureClass::Shutdown()
 {
-	if (m_texture)
-	{
-		m_texture->Release();
-		m_texture = 0;
-	}
-
+	ReleaseTextur();
 	return;
 }
 
-ID3D11ShaderResourceView* TextureClass::GetTexture()
+void TextureClass::ReleaseTextur()
+{
+	vector<ID3D11ShaderResourceView*>::iterator it;
+	for (it = m_texture.begin(); it != m_texture.end(); it++)
+	{
+		if ((*it))
+		{
+			(*it)->Release();
+			*it = NULL;
+		}
+	}
+	m_texture.clear();
+}
+
+vector<ID3D11ShaderResourceView*> TextureClass::GetTextureArray()
 {
 	return m_texture;
 }

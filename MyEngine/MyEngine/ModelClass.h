@@ -30,18 +30,18 @@ public:
 	ModelClass(const ModelClass&);
 	~ModelClass();
 
-	bool Initialize(ID3D11Device* d3DDevice, char* ModelFileName, WCHAR* TextureFileName);
+	bool Initialize(ID3D11Device* d3DDevice, char* ModelFileName, vector<wstring> TextureFileName);
 	void Shutdown();
 	void Render(ID3D11DeviceContext* d3DDeviceContext);
 	int GetIndexCount();
 
-	ID3D11ShaderResourceView* GetTexture();
+	vector<ID3D11ShaderResourceView*> GetTexture();
 private:
 	bool InitializeBuffers(ID3D11Device* buffer);
 	void ShutdownBuffers();
 	void RenderBuffers(ID3D11DeviceContext* d3DDeviceContext);
 
-	bool LoadTexture(ID3D11Device* device, WCHAR* imageName);
+	bool LoadTexture(ID3D11Device* device, vector<wstring> imageName);
 	void ReleaseTexture();
 	
 	bool LoadModel(char* ModelFileName);

@@ -19,7 +19,7 @@ BitmapClass::~BitmapClass()
 {
 }
 
-bool BitmapClass::Initialize(ID3D11Device* device, int screenWidth, int screenHeight, WCHAR* textureFilename, int bitmapWidth, int bitmapHeight)
+bool BitmapClass::Initialize(ID3D11Device* device, int screenWidth, int screenHeight, vector<wstring> textureFilename, int bitmapWidth, int bitmapHeight)
 {
 	m_screenWidth = screenWidth;
 	m_screenHeight = screenHeight;
@@ -76,9 +76,9 @@ int BitmapClass::GetIndexCount()
 	return m_indexCount;
 }
 
-ID3D11ShaderResourceView* BitmapClass::GetTexture()
+vector<ID3D11ShaderResourceView*> BitmapClass::GetTexture()
 {
-	return m_Texture->GetTexture();
+	return m_Texture->GetTextureArray();
 }
 
 bool BitmapClass::InitializeBuffers(ID3D11Device* device)
@@ -304,7 +304,7 @@ void BitmapClass::RenderBuffers(ID3D11DeviceContext*deviceContext)
 }
 
 
-bool BitmapClass::LoadTexture(ID3D11Device* device, WCHAR* filename)
+bool BitmapClass::LoadTexture(ID3D11Device* device, vector<wstring> filename)
 {
 	bool result;
 
